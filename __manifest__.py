@@ -12,8 +12,6 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/purchase_plus_views.xml',
-        'views/sale_plus_views.xml',
     ],
     # 'qweb': ['static/src/xml/*.xml'],
     'installable': True,

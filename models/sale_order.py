@@ -35,7 +35,6 @@ class SaleOrder(models.Model):
         return res
 
     def action_confirm(self):
-        # Gọi lại phương thức gốc
         call = super(SaleOrder, self).action_confirm()
         stock_picking = self.env['stock.picking'].search([('origin', '=', self.name)], limit=1)
 

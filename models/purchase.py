@@ -51,11 +51,9 @@ class PurchaseOrder(models.Model):
     def action_post(self):
         res = super(PurchaseOrder, self).action_post()
         sale_order = self.env['sale.order'].sudo().search([('client_order_ref', '=', self)], limit=1)
-        if sale_order:
-            invoice = sale_order.invoice_ids.filtered(lambda i: i.state != 'posted')
-            if invoice:
-                raise ValidationError(
-                    'Không thể xác nhận đơn mua hàng trước khi đơn bán hàng được thanh toán.')
+        if sale_order and sale_order.invoice_ids.state != 'posted':
+            raise ValidationError(
+                'A bill of purchase order cannot be confirmed before the bill of sales order has been confirmed.')
         return res
 
 

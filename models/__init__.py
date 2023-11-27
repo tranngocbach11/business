@@ -1,3 +1,3 @@
-from . import purchase_plus
-from . import sale_plus
-from . import stock_plus
+from . import purchase
+from . import sale_order
+from . import stock_picking
