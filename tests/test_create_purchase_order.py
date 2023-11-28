@@ -25,5 +25,20 @@ class TestPurchaseOrder(TransactionCase):
         self.assertEqual(sale_order.order_line[0].product_uom_qty, 5, "Quantity mismatch in Sale Order.")
         self.assertEqual(sale_order.order_line[0].price_unit, 10.0, "Price mismatch in Sale Order.")
 
+    def test_sale_order_update(self):
+        sale_order = self.env['sale.order'].search([('client_order_ref', '=', self.purchase_order.name)])
+        sale_order.sudo().write({'order_line': [(5, 0, 0)]})
+        sale_order.sudo().write({
+            'order_line': [(0, 0, {
+                'product_id': self.product.id,
+                'product_qty': 5,
+                'price_unit': 10,
+            })],
+        })
+
+        sale_order.action_quotation_send()
+        purchase_order = self.env['purchase.order'].search([('client_order_ref', '=', self.purchase_order.name)])
+        self.assertTrue(purchase_order, "Purchase Order exists")
+
 
 
